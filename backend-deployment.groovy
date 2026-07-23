@@ -21,10 +21,13 @@ pipeline {
 
             steps {
                 sh '''
+                    mkdir -p $WORKSPACE/.m2/repository
+
                     java -version
                     javac -version
                     mvn -version
-                    mvn clean package
+
+                    mvn -Dmaven.repo.local=$WORKSPACE/.m2/repository clean package
                 '''
             }
         }
