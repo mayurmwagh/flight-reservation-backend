@@ -1,5 +1,5 @@
 pipeline {
-    agent none
+    agent any
 
     stages {
 
@@ -21,13 +21,8 @@ pipeline {
 
             steps {
                 sh '''
-                    mkdir -p $WORKSPACE/.m2/repository
+                  mvn clean package 
 
-                    java -version
-                    javac -version
-                    mvn -version
-
-                    mvn -Dmaven.repo.local=$WORKSPACE/.m2/repository clean package
                 '''
             }
         }
