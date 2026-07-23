@@ -12,14 +12,15 @@ pipeline {
                 agent {
                     docker {
                         image 'maven:3.9.11-eclipse-temurin-21'
+                        
                         reuseNode true
                         }
                     }
                 sh ''' 
-                    echo "JAVA_HOME=$JAVA_HOME"
-                    java -version
-                    javac -version
-                    mvn -version
+                     java -version
+                     javac -version
+                     mvn -version
+                     mvn clean package
                 '''
             }
         }
