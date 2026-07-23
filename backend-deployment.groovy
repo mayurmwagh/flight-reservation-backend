@@ -11,12 +11,14 @@ pipeline {
             steps{
                 agent {
                     docker {
-                        image 'maven:3.9.11-amazoncorretto-21'
+                        image 'maven:3.9.11-eclipse-temurin-21'
                         
                         reuseNode true
                         }
                     }
                 sh ''' 
+                     apt-get update && 
+                     apt-get install -y maven
                      java -version
                      javac -version
                      mvn -version
