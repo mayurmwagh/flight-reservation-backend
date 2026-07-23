@@ -15,7 +15,12 @@ pipeline {
                         reuseNode true
                         }
                     }
-                sh 'mvn clean package'
+                sh ''' 
+                    echo "JAVA_HOME=$JAVA_HOME"
+                    java -version
+                    javac -version
+                    mvn -version
+                '''
             }
         }
     }
