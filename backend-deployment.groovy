@@ -3,21 +3,30 @@ pipeline {
 
     stages {
 
-        stage('code-checkout') {
-            agent any
+        stage('Checkout') {
             steps {
                 git branch: 'main',
                     url: 'https://github.com/mayurmwagh/flight-reservation-backend.git'
             }
         }
 
-        stage('build-stage') {
-
+        stage('Verify Java') {
             steps {
                 sh '''
-                  mvn clean package 
-
+                whoami
+                echo "JAVA_HOME=$JAVA_HOME"
+                which java
+                java -version
+                which javac
+                javac -version
+                mvn -version
                 '''
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
             }
         }
     }
