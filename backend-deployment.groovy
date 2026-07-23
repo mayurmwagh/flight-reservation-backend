@@ -8,7 +8,7 @@ pipeline {
             }
         }
         stage('build-stage'){
-            steps{
+            
                 agent {
                     docker {
                         image 'maven:3.9.11-eclipse-temurin-21'
@@ -16,6 +16,7 @@ pipeline {
                         reuseNode true
                         }
                     }
+            steps{    
                 sh ''' 
                      sudo apt-get update && 
                      sudo apt-get install -y maven
