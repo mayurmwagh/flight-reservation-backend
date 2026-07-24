@@ -20,5 +20,19 @@ pipeline {
                 sh 'docker build -t ${DOCKER_REPO}:${BUILD_NUMBER} . '
             }
         }
+        stage ('Docker-login'){
+            steps{
+                withCredentials([
+                            usernamePassword(
+                                credentialsId: 'docker-hub-creds',
+                                usernameVariable: 'DOCKER_USERNAME',
+                                passwordVariable: 'DOCKER_PASSWORD'
+                            )
+                        ]) 
+                        {    
+                           sh 'docker login -u ${DOCKER_USERNAME} -p ${DOCKER_PASSWORD}'
+                    }
+            }
+        }
     }
 }
