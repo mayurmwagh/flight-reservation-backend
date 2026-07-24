@@ -3,7 +3,7 @@ pipeline {
     environment {
         DOCKER_REPO = "flight-reservation53"
         DOCKER_USER = "mayurwagh"
-        
+
 
     }
 
@@ -57,24 +57,23 @@ pipeline {
                 }
             }
 
-        stage('Docker push'){
-            steps{
-               withCredentials([
-                        usernamePassword(
-                            credentialsId: 'docker-hub-creds',
-                            usernameVariable: 'DOCKER_USERNAME',
-                            passwordVariable: 'DOCKER_PASSWORD'
-                        )
-                    ]) 
-                    {
-                        sh '''
-                            docker tag ${DOCKER_REPO}:${BUILD_NUMBER} \
-                            ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
+        stage('Docker Push') {
+            steps {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'docker-hub-creds',
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        docker tag ${DOCKER_REPO}:${BUILD_NUMBER} \
+                        ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
 
-                            docker push ${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}
-                        '''
-                    }
+                        docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
+                    '''
                 }
             }
+        }
     }
 }
