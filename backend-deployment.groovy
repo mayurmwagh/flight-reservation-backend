@@ -75,5 +75,30 @@ pipeline {
                 }
             }
         }
+        stage('Image-Name-change'){
+                steps {
+          
+                    sh '''
+                     sed -i "s|mayurwagh/node-app:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                    '''
+                    sh 'cat k8s/deployment.yaml'
+                }
+            }
+        stage('Deploy to cluster'){
+                steps{
+                    withCredentials([aws(accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'aws_creds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY')]) {
+                         sh '''
+                            aws eks update-kubeconfig --name ${CLUSTER_NAME} --region ${REGION}
+                            
+                            kubectl get nodes
+                            kubectl apply -f k8s/deployment.yaml
+                            kubectl apply -f k8s/service.yaml
+                            kubectl get pods 
+                            kubectl get deployment
+                            kubectl get svc 
+                         '''
+                    }
+                }
+            }
     }
 }
