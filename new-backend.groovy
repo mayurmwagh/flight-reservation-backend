@@ -2,6 +2,8 @@ pipeline {
     agent any
     environment {
         DOCKER_REPO = "flight-backend"
+        DOCKER_USER  = "mayurwagh"
+
     }
     stages {
         stage('Code-checkout'){
@@ -34,5 +36,23 @@ pipeline {
                     }
             }
         }
+         stage ('Docker-push'){
+            steps{
+                withCredentials([
+                            usernamePassword(
+                                credentialsId: 'docker-hub-creds',
+                                usernameVariable: 'DOCKER_USERNAME',
+                                passwordVariable: 'DOCKER_PASSWORD'
+                            )
+                        ]) 
+                        {    
+                           sh '''docker tag ${DOCKER_REPO}:${BUILD_NUMBER} ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
+                           
+                                 docker push ${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}
+                           '''
+                    }
+            }
+        }
+
     }
 }
