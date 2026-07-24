@@ -3,7 +3,8 @@ pipeline {
     environment {
         DOCKER_REPO = "flight-reservation53"
         DOCKER_USER = "mayurwagh"
-
+        CLUSTER_NAME = "cbz-cluster"
+        REGION = "eu-north-1"
 
     }
 
@@ -79,7 +80,7 @@ pipeline {
                 steps {
           
                     sh '''
-                     sed -i "s|mayurwagh/node-app:latest|${DOCKER_REPO}/${DOCKER_USER}:${BUILD_NUMBER}|g" k8s/deployment.yaml
+                     sed -i "s|mayurwagh/node-app:latest|${DOCKER_USER}/${DOCKER_REPO}:${BUILD_NUMBER}|g" k8s/deployment.yaml
                     '''
                     sh 'cat k8s/deployment.yaml'
                 }
