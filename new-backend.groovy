@@ -1,5 +1,8 @@
 pipeline {
     agent any
+    envrionment {
+        DOCEKR_REPO = "flight-backend"
+    }
     stages {
         stage('Code-checkout'){
             steps{
@@ -10,6 +13,11 @@ pipeline {
         stage('Code-build'){
             steps{
                 sh 'mvn clean package'
+            }
+        }
+        stage ('Docker-build'){
+            steps {
+                sh 'docker build -t ${DOCKER_REPO}:${BUILD_NUMBER} . '
             }
         }
     }
