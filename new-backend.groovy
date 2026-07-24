@@ -1,6 +1,6 @@
 pipeline {
     agent any
-    envrionment {
+    environment {
         DOCEKR_REPO = "flight-backend"
     }
     stages {
