@@ -1,7 +1,7 @@
 pipeline {
     agent any
     environment {
-        DOCEKR_REPO = "flight-backend"
+        DOCKER_REPO = "flight-backend"
     }
     stages {
         stage('Code-checkout'){
